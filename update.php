@@ -1,9 +1,7 @@
 <?php
-
 session_start();
 
 // Check if the user is DFA Employee
-
 if (!isset($_SESSION['user']) || ($_SESSION['user'] !== 'processor' && $_SESSION['user'] !== 'admin' && $_SESSION['user'] !== 'programmer')) {
   // Redirect to a different page or display an error message
   echo "Access denied. Only DFA Employee can access here!.";
@@ -34,7 +32,6 @@ if (isset($_GET['appointmentCode']) && isset($_GET['lastName']) && isset($_GET['
   $updateGender = $_GET['gender'];
 }
 
-
 // Check if the update form is submitted
 if (isset($_POST['updateSubmit'])) {
   // Get the values from the form
@@ -52,11 +49,13 @@ if (isset($_POST['updateSubmit'])) {
   $sql = "UPDATE scanned_data SET gender = '$updateGender', processor = '$updateProcessor', transactionType = '$updateNewRenewal',
    typeOfApplicant = '$updateTypeOfApplicant', schedule = '$updateSchedule', typeOfForm = '$updateTypeOfForm', site = '$updateSite', approved = '$updateApproved', scan_processor = NOW() WHERE appointmentCode = '$updateAppointmentCode'";
 
-  if ($conn->query($sql) === TRUE) {
-      echo '<script>alert("Record updated successfully.");</script>';
-  } else {
-      echo "Error updating record: " . $conn->error;
-  }
+if ($conn->query($sql) === TRUE) {
+  echo '<script>alert("Record updated successfully.");</script>';
+  // Redirect to search.php after updating the record
+  echo '<script>window.location = "search.php";</script>';
+} else {
+  echo "Error updating record: " . $conn->error;
+}
 }
 ?>
 
@@ -66,159 +65,51 @@ if (isset($_POST['updateSubmit'])) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Report Page</title>
-  <style>
-  
-/* This style is for Body */
-    
-* {
-    text-decoration: none;
-    padding: 0;
-    margin: 0;
-    list-style: none;
-  }
-
-  body {
-    background-color: #e0e0e0; /* Light gray background */
-    height: 100vh;
-    margin: 0;
-  }
-
-  /* This Style is for the Header */
-
-  .container2 {
-    width: 100px;
-    height: 100px;
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    display: block;
-  }
-
-  li {
-    color: white;
-  }
-
-  a {
-    text-decoration: none;
-    font-size: 20px;
-    display: inline;
-    font-weight: bolder;
-    color: blue;
-  }
-
-  .navlist {
-    display: flex;
-  }
-
-  .navlist a {
-    display: inline-block;
-    color: var(--text-color);
-    padding: 10px 51px;
-    margin-top: 118px;
-    animation: slideAnimation 1s ease forwards;
-    animation-delay: calc(0.3s * var(--i));
-  }
-
-  .navlist a:hover {
-    color: var(--hover-color);
-    text-shadow: 0 0 10px rgba(18, 247, 255, 0.6),
-      0 0 20px rgba(18, 247, 255, 0.6), 0 0 30px rgba(18, 247, 255, 0.6),
-      0 0 40px rgba(18, 247, 255, 0.6), 0 0 70px rgba(18, 247, 255, 0.6),
-      0 0 80px rgba(18, 247, 255, 0.6), 0 0 100px rgba(18, 247, 255, 0.6),
-      0 0 150px rgba(18, 247, 255, 0.6);
-  }
-
-  .navlist a.active {
-    color: var(--hover-color);
-  }
-
-  header {
-    top: 0;
-    left: 0;
-    z-index: 1000;
-    border-bottom: 1px solid transparent;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 8px 50%;
-    background-color: #555;
-    padding-bottom: 50px;
-  }
-
-  /* Style for Banner */
-
-  .banner {
-    background-color: #2b78e4;
-  }
-
-  .image-banner {
-    margin-left: 130px;
-    vertical-align: middle;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    border: 0;
-    max-width: 100%;
-  }
-
-.floating-element {
-      position: fixed;
-      background-color: #007bff; /* Background color */
-      color: #fff; /* Text color */
-      padding: 10px; /* Padding around the content */
-      border-radius: 5px; /* Rounded corners */
-      top: 20px; /* Adjust the top position as needed */
-      right: 20px; /* Adjust the right position as needed */
-      z-index: 999; /* Ensure it's above other elements */
-    }
-
-    </style>
+  <link rel="stylesheet" href="./css/update.css">
 </head>
 <body>
-
 <div class="banner">
-    <img class="image-banner" src="img/banner.png" alt="broken-image">
+  <img class="image-banner" src="img/banner.png" alt="broken-image">
+</div>
+
+<header>
+  <div class="container2">
+    <ul class="navlist">
+      <li><a href="frontpage.php">Insert</a></li>
+      <li><a href="search.php">Search</a></li>
+      <li><a href="update.php">Update</a></li>
+      <li><a href="monitoring.php">Monitoring</a></li>
+      <li><a href="reports.php">Reports</a></li>
+      <li><a href="tools.php">Tools</a></li>
+      <li><a href="logout.php">LogOut</a></li>
+    </ul>
   </div>
+</header>
 
-  <header>
-    <div class="container2">
-        <ul class="navlist">
-          <li><a href="frontpage.php">Insert</a></li>
-          <li><a href="search.php">Search</a></li>
-          <li><a href="update.php">Update</a></li>
-          <li><a href="monitoring.php">Monitoring</a></li>
-          <li><a href="reports.php">Reports</a></li>
-          <li><a href="tools.php">Tools</a></li>
-          <li><a href="logout.php">LogOut</a></li>
-        </ul>
-    </div>
-  </header>
+<!-- Display the user role as a floating element -->
+<div class="floating-element">
+  <p>Welcome, <?php echo $userRole ?></p>
+</div>
 
-  <!-- Display the user role as a floating element -->
-  <div class="floating-element">
-    <p>Welcome, <?php echo $userRole ?></p>
-  </div>
+<!-- Display the details on the update page -->
+<h2>Update Record</h2>
+<p>Appointment Code: <?php echo $updateAppointmentCode; ?></p>
+<p>Last Name: <?php echo $updateLastName; ?></p>
+<p>First Name: <?php echo $updateFirstName; ?></p>
+<p>Middle Name: <?php echo $updateMiddleName; ?></p>
+<p>Gender: <?php echo $updateGender; ?></p>
 
-   <!-- Display the details on the update page -->
-   <h2>Update Record</h2>
-  <p>Appointment Code: <?php echo $updateAppointmentCode; ?></p>
-  <p>Last Name: <?php echo $updateLastName; ?></p>
-  <p>First Name: <?php echo $updateFirstName; ?></p>
-  <p>Middle Name: <?php echo $updateMiddleName; ?></p>
-  <p>Gender: <?php echo $updateGender; ?></p>
-
-  <!-- Update Record Section -->
+<!-- Update Record Section -->
 <div id="updateRecord">
   <h2>Update Record</h2>
   <form action="update.php" method="post">
-    <input type="hidden" id="updateAppointmentCode" name="updateAppointmentCode" value="">
-    <label for="updateLastName">Last Name:</label>
-    <input type="text" id="updateLastName" name="updateLastName" autocomplete="off" readonly> <!-- Lock this field -->
-    <label for="updateFirstName">First Name:</label>
-    <input type="text" id="updateFirstName" name="updateFirstName" autocomplete="off" readonly> <!-- Lock this field -->
-    <label for="updateMiddleName">Middle Name:</label>
-    <input type="text" id="updateMiddleName" name="updateMiddleName" autocomplete="off" readonly> <!-- Lock this field -->
+    <!-- Add values to the hidden fields -->
+    <input type="hidden" id="updateAppointmentCode" name="updateAppointmentCode" value="<?php echo $updateAppointmentCode; ?>">
+    <input type="hidden" id="updateLastName" name="updateLastName" value="<?php echo $updateLastName; ?>">
+    <input type="hidden" id="updateFirstName" name="updateFirstName" value="<?php echo $updateFirstName; ?>">
+    <input type="hidden" id="updateMiddleName" name="updateMiddleName" value="<?php echo $updateMiddleName; ?>">
     <label for="updateGender">Gender:</label>
-    <input type="text" id="updateGender" name="updateGender" autocomplete="off">
+    <input type="text" id="updateGender" name="updateGender" value="<?php echo $updateGender; ?>" autocomplete="off">
     <label for="updateProcessor">Processor:</label>
     <select id="updateProcessor" name="updateProcessor">
       <option value="Chito">Chito</option>
@@ -263,10 +154,7 @@ if (isset($_POST['updateSubmit'])) {
       <option value="Approved">Approved</option>
       <option value="Disapproved">Disapproved</option>
     </select>
-
-  </form>
-
-    <!-- Rest of your form fields -->
+  
 
     <!-- Modify the Submit button -->
     <button type="submit" name="updateSubmit">Submit</button>
@@ -274,36 +162,5 @@ if (isset($_POST['updateSubmit'])) {
     <button type="button" onclick="hideUpdateRecord()">Cancel</button>
   </form>
 </div>
-</div>
-
-<!-- Include this JavaScript code within your <script> tags in update.php -->
-  <script>
-
-
-
-  // Function to show the "Update Record" section and populate its fields
-  function showUpdateRecord(appointmentCode, lastName, firstName, middleName, gender) {
-    // Populate the fields
-    document.getElementById("updateAppointmentCode").value = appointmentCode;
-    document.getElementById("updateLastName").value = lastName;
-    document.getElementById("updateFirstName").value = firstName;
-    document.getElementById("updateMiddleName").value = middleName;
-    document.getElementById("updateGender").value = gender;
-
-    // Show the "Update Record" section
-    document.getElementById("updateRecord").style.display = "block";
-  }
-
-  // Function to hide the "Update Record" section
-  function hideUpdateRecord() {
-    document.getElementById("updateRecord").style.display = "none";
-  }
-
-  // Add an event listener to hide the "Update Record" section when the page loads
-  window.addEventListener("load", function () {
-    hideUpdateRecord();
-  });
-
-  </script>
 </body>
 </html>
