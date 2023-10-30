@@ -272,7 +272,7 @@ if (isset($_POST['submit'])) {
         <ul class="navlist">
           <li><a href="frontpage.php">Insert</a></li>
           <li><a href="search.php">Search</a></li>
-          <li><a href="update.php">Update</a></li>
+          <li><a href="search.php">Update</a></li>
           <li><a href="monitoring.php">Monitoring</a></li>
           <li><a href="reports.php">Reports</a></li>
           <li><a href="tools.php">Tools</a></li>

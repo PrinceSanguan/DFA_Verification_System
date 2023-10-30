@@ -120,9 +120,9 @@ if (isset($_POST['delete_button'])) {
     padding-bottom: 50px;
   }
 
-  /* Style for Banner */
+ /* Style for Banner */
 
-  .banner {
+ .banner {
     background-color: #2b78e4;
   }
 
@@ -163,17 +163,17 @@ if (isset($_POST['delete_button'])) {
   font-size: 20px;
   }
 
-/* Styles for the floating element */
-.floating-element {
-      position: fixed;
-      background-color: #007bff; /* Background color */
-      color: #fff; /* Text color */
-      padding: 10px; /* Padding around the content */
-      border-radius: 5px; /* Rounded corners */
-      top: 20px; /* Adjust the top position as needed */
-      right: 20px; /* Adjust the right position as needed */
-      z-index: 999; /* Ensure it's above other elements */
-    }
+ /* Styles for the floating element */
+ .floating-element {
+    position: absolute;
+    background-color: #007bff; /* Background color */
+    color: #fff; /* Text color */
+    padding: 10px; /* Padding around the content */
+    border-radius: 5px; /* Rounded corners */
+    top: 130px; /* Adjust the top position as needed */
+    right: 20px; /* Adjust the right position as needed */
+    z-index: 999; /* Ensure it's above other elements */
+  }
 
   </style>
 	</head>

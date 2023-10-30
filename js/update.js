@@ -21,8 +21,3 @@ function showUpdateRecord(
 function hideUpdateRecord() {
   document.getElementById("updateRecord").style.display = "none";
 }
-
-// Add an event listener to hide the "Update Record" section when the page loads
-window.addEventListener("load", function () {
-  hideUpdateRecord();
-});

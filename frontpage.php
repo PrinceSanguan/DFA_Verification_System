@@ -93,6 +93,43 @@ $result->close();
 $conn->close();
 }
 
+// Function to calculate the next queue number
+function getNextQueueNumber($conn) {
+  // Calculate the age of the applicant based on their birthDate
+  // Replace this with your actual logic to calculate age from the birthDate
+  $applicantAge = calculateAge($_SESSION['scanned_appointmentCode']);
+
+  // Set the default queue number for regular applicants
+  $queueNumber = 3001;
+
+  // Set a special queue number for applicants aged 7 or below or 60 and above
+  if ($applicantAge <= 7 || $applicantAge >= 60) {
+      $queueNumber = 1001;
+  }
+
+  // Fetch the maximum queue number from the scanned_data table
+  $sql = "SELECT MAX(queueNumber) as maxQueueNumber FROM scanned_data";
+  $result = $conn->query($sql);
+  $row = $result->fetch_assoc();
+  $maxQueueNumber = $row['maxQueueNumber'];
+
+  // Increment the queue number
+  $queueNumber += $maxQueueNumber;
+
+  return $queueNumber;
+}
+
+// Function to calculate age from birthDate
+function calculateAge($birthDate) {
+  // Replace this with your logic to calculate age from birthDate
+  // For example, you can use DateTime functions
+  $birthDate = new DateTime($birthDate);
+  $currentDate = new DateTime();
+  $interval = $currentDate->diff($birthDate);
+  return $interval->y;
+}
+
+
 ?>
 
 <!DOCTYPE html>
@@ -105,7 +142,7 @@ $conn->close();
     
 /* This style is for Body */
     
-  * {
+* {
     text-decoration: none;
     padding: 0;
     margin: 0;
@@ -157,7 +194,7 @@ $conn->close();
 
 /* This Style is for the Header */
 
-  .container2 {
+.container2 {
     width: 100px;
     height: 100px;
     position: absolute;
@@ -217,9 +254,9 @@ $conn->close();
     padding-bottom: 50px;
   }
 
-  /* Style for Banner */
+ /* Style for Banner */
 
-  .banner {
+ .banner {
     background-color: #2b78e4;
   }
 
@@ -234,15 +271,15 @@ $conn->close();
 
   /* Styles for the floating element */
   .floating-element {
-      position: fixed;
-      background-color: #007bff; /* Background color */
-      color: #fff; /* Text color */
-      padding: 10px; /* Padding around the content */
-      border-radius: 5px; /* Rounded corners */
-      top: 20px; /* Adjust the top position as needed */
-      right: 20px; /* Adjust the right position as needed */
-      z-index: 999; /* Ensure it's above other elements */
-    }
+    position: absolute;
+    background-color: #007bff; /* Background color */
+    color: #fff; /* Text color */
+    padding: 10px; /* Padding around the content */
+    border-radius: 5px; /* Rounded corners */
+    top: 130px; /* Adjust the top position as needed */
+    right: 20px; /* Adjust the right position as needed */
+    z-index: 999; /* Ensure it's above other elements */
+  }
 
   </style>
 </head>
@@ -257,7 +294,7 @@ $conn->close();
         <ul class="navlist">
           <li><a href="frontpage.php">Insert</a></li>
           <li><a href="search.php">Search</a></li>
-          <li><a href="update.php">Update</a></li>
+          <li><a href="frontpage.php">Update</a></li>
           <li><a href="monitoring.php">Monitoring</a></li>
           <li><a href="reports.php">Reports</a></li>
           <li><a href="tools.php">Tools</a></li>
