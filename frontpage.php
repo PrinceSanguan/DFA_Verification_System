@@ -138,7 +138,7 @@ function calculateAge($birthDate) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/png" href="./img/DFA.png">
-  <title>Verification</title>
+  <title>NCR EAST VERIFICATION</title>
   <style>
     
 /* This style is for Body */
