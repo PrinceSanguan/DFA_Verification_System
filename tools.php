@@ -245,7 +245,8 @@ if (isset($_POST['delete_button'])) {
 			</tr>
 			<?php
 			$i = 1;
-			$rows = mysqli_query($conn, "SELECT *, address FROM dfa_data1");
+			$rows = mysqli_query($conn, "SELECT appointmentCode, lol, lastName, firstName, middleName, oldPassportNumber, gender, civilStatus, birthDate, birthPlace, birthCountry, email, mobileNumber, address, city, province, schedule, time, receiptNumber, referenceNumber, agency, status, siteName, createdData, lastUpdateDate, courier FROM dfa_data1");
+
 			foreach($rows as $row) :
 			?>
 			<tr>
